@@ -1,0 +1,12 @@
+{
+  "name": "smartprice-web",
+  "version": "1.0.0",
+  "description": "Predictive Price Analytics Framework & Web Companion",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "dependencies": {
+    "express": "^5.2.1"
+  }
+}
