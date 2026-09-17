@@ -1,0 +1,122 @@
+{% extends 'base.html' %}
+
+{% block title %}ML Methodology & Framework - SmartPrice{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="mb-4">
+        <h2 class="fw-bold mb-1">Predictive Analytics Framework & ML Architecture</h2>
+        <p class="text-muted mb-0">System design, mathematical formulations, and cross-platform analysis</p>
+    </div>
+
+    <!-- Methodology Cards -->
+    <div class="row g-4 mb-4">
+        <div class="col-lg-6">
+            <div class="card border-0 shadow-sm rounded-4 p-4 h-100">
+                <h5 class="fw-bold mb-3"><i class="fa-solid fa-square-root-variable text-primary me-2"></i> 1. Mathematical Formulation</h5>
+                <p class="text-muted small">
+                    The price forecasting module implements Polynomial Regression using Scikit-Learn:
+                </p>
+                <div class="bg-light p-3 rounded-3 font-monospace small mb-3 border">
+                    y(t) = &beta;<sub>0</sub> + &beta;<sub>1</sub>t + &beta;<sub>2</sub>t<sup>2</sup> + &epsilon;
+                </div>
+                <ul class="text-muted small ps-3 mb-0">
+                    <li><strong>y(t)</strong>: Estimated price at time offset <em>t</em> (days).</li>
+                    <li><strong>&beta;<sub>0</sub>, &beta;<sub>1</sub>, &beta;<sub>2</sub></strong>: OLS regression coefficients estimated from historical prices.</li>
+                    <li><strong>&epsilon;</strong>: Error residual &sim; <em>N(0, &sigma;<sup>2</sup>)</em>.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="col-lg-6">
+            <div class="card border-0 shadow-sm rounded-4 p-4 h-100">
+                <h5 class="fw-bold mb-3"><i class="fa-solid fa-chart-line text-success me-2"></i> 2. Statistical Confidence Bands</h5>
+                <p class="text-muted small">
+                    To prevent overconfidence in predictions, a 90% confidence envelope is computed using the residual standard error:
+                </p>
+                <div class="bg-light p-3 rounded-3 font-monospace small mb-3 border">
+                    CI<sub>90%</sub> = &ycirc;(t) &plusmn; 1.645 &middot; S<sub>e</sub> &middot; &radic;(1 + h(t))
+                </div>
+                <p class="text-muted small mb-0">
+                    Where <em>S<sub>e</sub></em> is the root mean square error of residuals and <em>h(t)</em> models variance expansion over increasing forecast horizons (+1 to +14 days).
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Platform Benchmark Table -->
+    <div class="card border-0 shadow-sm rounded-4 p-4 mb-4">
+        <h5 class="fw-bold mb-3"><i class="fa-solid fa-store text-info me-2"></i> Multi-Platform Intelligence Benchmark</h5>
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th>Platform</th>
+                        <th>Price Competitiveness</th>
+                        <th>Average Shipping</th>
+                        <th>Fluctuation Frequency</th>
+                        <th>Algorithmic Notes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Amazon</strong></td>
+                        <td><span class="badge bg-success">96%</span></td>
+                        <td>1-2 Days (Prime)</td>
+                        <td>High (Dynamic repricing algorithms)</td>
+                        <td>Frequent micro-adjustments based on competitor matching</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Best Buy</strong></td>
+                        <td><span class="badge bg-primary">92%</span></td>
+                        <td>2 Days</td>
+                        <td>Moderate (Weekly circulars)</td>
+                        <td>Major deals on weekend promotions and bundle savings</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Walmart</strong></td>
+                        <td><span class="badge bg-success">90%</span></td>
+                        <td>2-3 Days</td>
+                        <td>Moderate (Rollbacks)</td>
+                        <td>Reliable base prices with aggressive rollback promotions</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Flipkart</strong></td>
+                        <td><span class="badge bg-info">87%</span></td>
+                        <td>3-4 Days</td>
+                        <td>High (Big billion sales)</td>
+                        <td>Substantial seasonal discount events and exchange bonuses</td>
+                    </tr>
+                    <tr>
+                        <td><strong>eBay</strong></td>
+                        <td><span class="badge bg-secondary">84%</span></td>
+                        <td>3-5 Days</td>
+                        <td>Variable</td>
+                        <td>Lowest floor on refurbished and certified open-box items</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Viva & Project Highlights -->
+    <div class="card border-0 shadow-sm rounded-4 p-4 bg-dark text-white">
+        <h5 class="fw-bold text-primary mb-2"><i class="fa-solid fa-graduation-cap me-2"></i> Final-Year College Project Architecture</h5>
+        <p class="text-white-50 small mb-3">Key technical points for external evaluation and project defense:</p>
+        <div class="row g-3 text-white-50 small">
+            <div class="col-md-4">
+                <span class="text-white fw-bold d-block mb-1">Frontend Layer:</span>
+                HTML5 semantic markup, responsive Bootstrap 5, custom CSS styling, and interactive Chart.js vector visualizers.
+            </div>
+            <div class="col-md-4">
+                <span class="text-white fw-bold d-block mb-1">Backend & Persistence:</span>
+                Python Flask REST framework, Werkzeug security, PyMySQL connection pooling with transparent zero-config SQLite fallback.
+            </div>
+            <div class="col-md-4">
+                <span class="text-white fw-bold d-block mb-1">Machine Learning Stack:</span>
+                Scikit-Learn, Pandas time-series manipulation, and NumPy vector operations providing automated Buy or Wait advice.
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

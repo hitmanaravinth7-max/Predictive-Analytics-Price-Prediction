@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+
+{% block title %}Search Products - SmartPrice{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <!-- Search Bar & Filters Form -->
+    <div class="card border-0 shadow-sm rounded-4 p-4 mb-4">
+        <form method="GET" action="{{ url_for('search') }}">
+            <div class="row g-3 align-items-center">
+                <div class="col-lg-5">
+                    <div class="input-group">
+                        <span class="input-group-text bg-white border-end-0"><i class="fa-solid fa-magnifying-glass text-muted"></i></span>
+                        <input type="text" name="q" value="{{ query }}" class="form-control border-start-0 ps-0" placeholder="Search iPhone, MacBook, Sony...">
+                    </div>
+                </div>
+
+                <div class="col-sm-6 col-lg-3">
+                    <select name="category" class="form-select" onchange="this.form.submit()">
+                        {% for cat in categories %}
+                        <option value="{{ cat }}" {% if selected_category == cat %}selected{% endif %}>{{ cat }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="col-sm-6 col-lg-3">
+                    <select name="sort" class="form-select" onchange="this.form.submit()">
+                        <option value="lowest_price" {% if sort_by == 'lowest_price' %}selected{% endif %}>Price: Low to High</option>
+                        <option value="highest_price" {% if sort_by == 'highest_price' %}selected{% endif %}>Price: High to Low</option>
+                        <option value="rating" {% if sort_by == 'rating' %}selected{% endif %}>Customer Rating</option>
+                    </select>
+                </div>
+
+                <div class="col-lg-1 d-grid">
+                    <button type="submit" class="btn btn-primary"><i class="fa-solid fa-filter"></i></button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!-- Results Count -->
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h5 class="fw-bold mb-0">Search Results ({{ products|length }})</h5>
+        {% if query %}
+        <span class="text-muted">Filtering by query: "<strong>{{ query }}</strong>"</span>
+        {% endif %}
+    </div>
+
+    <!-- Products Grid -->
+    {% if products %}
+    <div class="row g-4">
+        {% for p in products %}
+        <div class="col-md-6 col-lg-4">
+            <div class="card h-100 border-0 shadow-sm rounded-4 p-3 d-flex flex-column product-search-card">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <span class="badge bg-primary-subtle text-primary">{{ p.category }}</span>
+                    <span class="text-warning small"><i class="fa-solid fa-star"></i> {{ p.rating }} ({{ p.review_count }})</span>
+                </div>
+
+                <h6 class="fw-bold mb-1">{{ p.title }}</h6>
+                <small class="text-muted mb-3">{{ p.brand }}</small>
+
+                <p class="text-muted small text-truncate-2 mb-3">{{ p.description }}</p>
+
+                <div class="mt-auto pt-3 border-top d-flex justify-content-between align-items-center">
+                    <div>
+                        <small class="text-muted d-block">Lowest on {{ p.best_platform }}</small>
+                        <span class="fs-4 fw-bold text-success">${{ "%.2f"|format(p.current_lowest_price) }}</span>
+                    </div>
+                    <a href="{{ url_for('product_detail', product_id=p.id) }}" class="btn btn-primary btn-sm rounded-3">
+                        Compare Prices & ML
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="card border-0 shadow-sm rounded-4 p-5 text-center">
+        <i class="fa-solid fa-magnifying-glass fs-1 text-muted mb-3"></i>
+        <h4>No products found</h4>
+        <p class="text-muted">No products matched your search criteria. Try a different query or select 'All' categories.</p>
+        <div class="mt-2">
+            <a href="{{ url_for('search') }}" class="btn btn-outline-primary btn-sm">Reset Filters</a>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

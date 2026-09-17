@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+
+{% block title %}Price Drop Alerts - SmartPrice{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="fw-bold mb-1">Price Drop Alerts</h2>
+            <p class="text-muted mb-0">Multi-store price drop monitoring service</p>
+        </div>
+        <a href="{{ url_for('search') }}" class="btn btn-primary btn-sm rounded-3">
+            <i class="fa-solid fa-plus me-1"></i> Add New Alert
+        </a>
+    </div>
+
+    {% if alerts %}
+    <div class="row g-3">
+        {% for alert in alerts %}
+        <div class="col-md-6 col-lg-4">
+            <div class="card border-0 shadow-sm rounded-4 p-4 h-100 alert-card">
+                <div class="d-flex justify-content-between align-items-start mb-2">
+                    <span class="badge bg-{{ 'success' if alert.is_triggered else 'warning text-dark' }} px-3 py-2 fw-bold">
+                        <i class="fa-solid fa-{{ 'circle-check' if alert.is_triggered else 'bell' }} me-1"></i>
+                        {{ 'TRIGGERED - TARGET REACHED' if alert.is_triggered else 'MONITORING PRICE' }}
+                    </span>
+                    <form method="POST" action="{{ url_for('delete_alert', alert_id=alert.id) }}" class="d-inline" onsubmit="return confirm('Remove this alert?');">
+                        <button type="submit" class="btn btn-link text-danger p-0">
+                            <i class="fa-regular fa-trash-can fs-5"></i>
+                        </button>
+                    </form>
+                </div>
+
+                <h6 class="fw-bold mt-2 mb-1">{{ alert.product_title }}</h6>
+                <small class="text-muted mb-3">{{ alert.note }}</small>
+
+                <div class="bg-light p-3 rounded-3 my-3">
+                    <div class="d-flex justify-content-between mb-1">
+                        <span class="text-muted small">Target Budget:</span>
+                        <span class="fw-bold text-success fs-5">${{ "%.2f"|format(alert.target_price) }}</span>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <span class="text-muted small">Current Store Price:</span>
+                        <span class="fw-bold fs-6">${{ "%.2f"|format(alert.current_price) }}</span>
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-between align-items-center mt-auto pt-2 border-top">
+                    <form method="POST" action="{{ url_for('simulate_alert', alert_id=alert.id) }}">
+                        <button type="submit" class="btn btn-outline-secondary btn-sm rounded-2">
+                            <i class="fa-solid fa-play me-1"></i> {{ 'Reset' if alert.is_triggered else 'Simulate Drop' }}
+                        </button>
+                    </form>
+                    <a href="{{ url_for('product_detail', product_id=alert.product_id) }}" class="btn btn-sm btn-outline-primary rounded-2">
+                        View Product <i class="fa-solid fa-arrow-right ms-1"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="card border-0 shadow-sm rounded-4 p-5 text-center">
+        <i class="fa-solid fa-bell-slash fs-1 text-muted mb-3"></i>
+        <h4>No price alerts set</h4>
+        <p class="text-muted">You have not created any price drop alerts yet. Search for any product and click 'Set Price Alert' to start receiving notifications.</p>
+        <div class="mt-2">
+            <a href="{{ url_for('search') }}" class="btn btn-primary">Browse Products</a>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
